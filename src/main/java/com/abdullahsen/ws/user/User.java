@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.abdullahsen.ws.shared.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
 @Data
@@ -20,10 +22,12 @@ public class User {
 	@NotNull(message = "{hoaxify.constraints.username.NotNull.message}")
 	@Size(min = 4, max = 255)
 	@UniqueUsername(message = "{hoaxify.constraints.username.UniqueUsername.message}")
+	@JsonView(Views.Base.class)
 	private String username;
 	
 	@NotNull(message = "{hoaxify.constraints.displayName.NotNull.message}")
 	@Size(min = 4, max = 255)
+	@JsonView(Views.Base.class)
 	private String displayName;
 	
 	@NotNull
@@ -31,6 +35,9 @@ public class User {
 	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
 			message = "{hoaxify.constraints.password.Pattern.message}" )
 	private String password;
+
+	@JsonView(Views.Base.class)
+	private String image;
 	
 		
 }
