@@ -1,25 +1,17 @@
 package com.abdullahsen.ws.user;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.validation.Valid;
-
+import com.abdullahsen.ws.shared.GenericResponse;
+import com.abdullahsen.ws.shared.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.abdullahsen.ws.error.ApiError;
-import com.abdullahsen.ws.shared.GenericResponse;
+import javax.validation.Valid;
 
 @RestController
 public class UserController {
@@ -40,6 +32,12 @@ public class UserController {
 	public GenericResponse createUser(@Valid @RequestBody User user) {
 		userService.save(user);
 		return new GenericResponse("user created");
+	}
+
+	@GetMapping("/api/1.0/users")
+	@JsonView(Views.Base.class)
+	Page<User> getUsers(Pageable pageable) {
+		return userService.getUsers(pageable);
 	}
 
 	

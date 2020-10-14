@@ -1,8 +1,12 @@
 package com.abdullahsen.ws.user;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -22,5 +26,8 @@ public class UserService {
 		userRepository.save(user);
 	}
 
-	
+
+    public Page<User> getUsers(Pageable pageable) {
+		return userRepository.findAll(pageable);
+    }
 }
