@@ -1,7 +1,9 @@
 package com.abdullahsen.ws.user;
 
+import com.abdullahsen.ws.shared.CurrentUser;
 import com.abdullahsen.ws.shared.GenericResponse;
 import com.abdullahsen.ws.shared.Views;
+import com.abdullahsen.ws.user.vm.UserVM;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 
 @RestController
 public class UserController {
@@ -35,9 +38,8 @@ public class UserController {
 	}
 
 	@GetMapping("/api/1.0/users")
-	@JsonView(Views.Base.class)
-	Page<User> getUsers(Pageable pageable) {
-		return userService.getUsers(pageable);
+	Page<UserVM> getUsers(Pageable pageable, @CurrentUser User user) {
+		return userService.getUsers(pageable, user).map(UserVM::new);
 	}
 
 	
