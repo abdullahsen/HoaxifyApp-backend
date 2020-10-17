@@ -1,14 +1,14 @@
 package com.abdullahsen.ws.user;
 
+import com.abdullahsen.ws.error.NotFoundException;
+import com.abdullahsen.ws.user.vm.UserUpdateVm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
+
 public class UserService {
 
 	
@@ -33,4 +33,19 @@ public class UserService {
 		}
 		return userRepository.findAll(pageable);
     }
+
+    public User getByUsername(String username){
+		User inDB = userRepository.findByUsername(username);
+
+		if (inDB == null){
+			throw new NotFoundException();
+		}
+		return userRepository.findByUsername(username);
+	}
+
+	public User updateUser(String username, UserUpdateVm updatedUser) {
+		User inDB = getByUsername(username);
+		inDB.setDisplayName(updatedUser.getDisplayName());
+		return userRepository.save(inDB);
+	}
 }
