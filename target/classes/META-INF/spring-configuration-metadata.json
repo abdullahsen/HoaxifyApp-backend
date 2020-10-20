@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "hoaxify",
+      "type": "com.abdullahsen.ws.configuration.AppConfiguration",
+      "sourceType": "com.abdullahsen.ws.configuration.AppConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "hoaxify.upload-path",
+      "type": "java.lang.String",
+      "sourceType": "com.abdullahsen.ws.configuration.AppConfiguration"
+    }
+  ],
+  "hints": []
+}

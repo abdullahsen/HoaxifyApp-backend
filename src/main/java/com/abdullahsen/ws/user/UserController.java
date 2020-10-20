@@ -1,6 +1,5 @@
 package com.abdullahsen.ws.user;
 
-import com.abdullahsen.ws.error.ApiError;
 import com.abdullahsen.ws.shared.CurrentUser;
 import com.abdullahsen.ws.shared.GenericResponse;
 import com.abdullahsen.ws.user.vm.UserUpdateVm;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,8 +50,8 @@ public class UserController {
     }
 
     @PutMapping("/users/{username}")
-	@PreAuthorize("#username == principal.username")
-    UserVM updateUser(@RequestBody UserUpdateVm updatedUser, @PathVariable String username) {
+    @PreAuthorize("#username == principal.username")
+    UserVM updateUser(@Valid @RequestBody UserUpdateVm updatedUser, @PathVariable String username) {
         User user = userService.updateUser(username, updatedUser);
         return new UserVM(user);
     }
