@@ -1,11 +1,10 @@
 package com.abdullahsen.ws.hoax;
 
+import com.abdullahsen.ws.file.FileAttachment;
+import com.abdullahsen.ws.user.User;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -14,12 +13,18 @@ import java.util.Date;
 public class Hoax {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Size(min = 1, max = 1000)
     @Column(length = 1000)
     private String content;
 
     private Date timestamp;
+
+    @ManyToOne
+    private User user;
+
+    @OneToOne(mappedBy = "hoax", cascade = CascadeType.REMOVE)
+    private FileAttachment fileAttachment;
+
 }

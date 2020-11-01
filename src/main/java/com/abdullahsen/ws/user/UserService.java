@@ -2,7 +2,9 @@ package com.abdullahsen.ws.user;
 
 import com.abdullahsen.ws.error.NotFoundException;
 import com.abdullahsen.ws.file.FileService;
+import com.abdullahsen.ws.hoax.HoaxService;
 import com.abdullahsen.ws.user.vm.UserUpdateVm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,12 +20,17 @@ public class UserService {
 	UserRepository userRepository;
 	PasswordEncoder passwordEncoder;
 	FileService fileService;
-	
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, FileService fileService) {
+
+	public UserService(UserRepository userRepository,
+					   PasswordEncoder passwordEncoder,
+					   FileService fileService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.fileService = fileService;
+
 	}
+
+
 
 	public void save(User user) {
 		String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -59,9 +66,14 @@ public class UserService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			fileService.deleteFile(oldImage);
+			fileService.deleteProfileImage(oldImage);
 		}
 		return userRepository.save(inDB);
 	}
 
+	public void deleteUser(String username) {
+		User inDB = userRepository.findByUsername(username);
+		fileService.deleteAllStoredFilesForUser(inDB);
+		userRepository.delete(inDB);
+	}
 }
