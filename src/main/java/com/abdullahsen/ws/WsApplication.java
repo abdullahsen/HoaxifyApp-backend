@@ -24,19 +24,25 @@ public class WsApplication {
     CommandLineRunner createInitialUsers(UserService userService, HoaxService hoaxService) {
         return args -> {
 
-            for (int i = 1; i <= 25; i++) {
-                User user = new User();
-                user.setDisplayName("abdullahsen" + i);
-                user.setUsername("abdullahsen" + i);
-                user.setPassword("Password12");
-                userService.save(user);
+            try {
+                userService.getByUsername("abdullahsen1");
+            }catch (Exception e){
+                for (int i = 1; i <= 25; i++) {
+                    User user = new User();
+                    user.setDisplayName("abdullahsen" + i);
+                    user.setUsername("abdullahsen" + i);
+                    user.setPassword("Password12");
+                    userService.save(user);
 
-                for (int j = 1; j <= 20; j++) {
-                    HoaxSubmitVM hoax = new HoaxSubmitVM();
-                    hoax.setContent("Hoax " + j + " from " + user.getDisplayName());
-                    hoaxService.save(hoax, user);
+                    for (int j = 1; j <= 20; j++) {
+                        HoaxSubmitVM hoax = new HoaxSubmitVM();
+                        hoax.setContent("Hoax " + j + " from " + user.getDisplayName());
+                        hoaxService.save(hoax, user);
+                    }
                 }
             }
+
+
 
         };
     }

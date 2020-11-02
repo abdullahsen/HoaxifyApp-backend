@@ -1,5 +1,6 @@
 package com.abdullahsen.ws.user;
 
+import com.abdullahsen.ws.auth.Token;
 import com.abdullahsen.ws.hoax.Hoax;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,6 +38,9 @@ public class User implements UserDetails {
 	private String password;
 
 	private String image;
+
+	@OneToMany(mappedBy = "user",  cascade = CascadeType.REMOVE)
+	private List<Token> tokens;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Hoax> hoaxes;
